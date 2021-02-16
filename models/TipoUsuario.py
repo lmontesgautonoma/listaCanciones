@@ -2,7 +2,7 @@ import database.db as db
 from sqlalchemy import Column, Integer, String, Float
 from sqlalchemy.orm import relationship
 
-class Account(db.Base):
+class TipoUsuario(db.Base):
      __tablename__ = 'tipoUsuario'
      
      id = Column('idTipoUsuario', String(15), primary_key=True, nullable=False)
