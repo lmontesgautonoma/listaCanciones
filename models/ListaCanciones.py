@@ -4,9 +4,9 @@ from sqlalchemy.orm import relationship
 
 class ListaCanciones(db.Base):
     __tablename__ = 'listaCanciones'
-   
-    idTipoMusica = relationship("Lista", back_populates="listaCanciones")
-    idUsuario = relationship("Cancion", back_populates="listaCanciones")
+    id = Column('id', String(15), primary_key=True, nullable=False)
+    # idTipoMusica = relationship("Lista", back_populates="listaCanciones")
+    # idUsuario = relationship("Cancion", back_populates="listaCanciones")
        
-    def __repr__(self):
+    def __repr__(self): 
         return f"<ListaCanciones {self.id}>"

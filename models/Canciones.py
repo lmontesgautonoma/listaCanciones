@@ -4,15 +4,20 @@ from sqlalchemy.orm import relationship
 
 class Canciones(db.Base):
     __tablename__ = 'canciones'
-    id = Column('id', String(15), primary_key=True, nullable=False)
+    id = Column('id', Integer, primary_key=True, autoincrement=True)
     nombreCancion = Column('nombreCancion', String(35), nullable=False)
-    duracionCancion = Column('nombreCancion', String(5), nullable=False)
-    idTipoMusica = relationship("TipoMusica", back_populates="canciones")
-    idUsuario = relationship("Usuarios", back_populates="canciones")
-    def __init__(self,id,nombreCancion, duracionCancion):
-        self.id = id
+    duracionCancion = Column('duracionCancion', String(5), nullable=False)
+
+    tipoMusica_id = Column('tipoMusica_id', String(15), ForeignKey('tipoMusica.id',onupdate='CASCADE', ondelete='CASCADE'), nullable=False)
+    tipoMusica = relationship("TipoMusica", back_populates="canciones")
+
+    usuarios_id = Column('usuarios_id', Integer, ForeignKey('usuarios.id',onupdate='CASCADE', ondelete='CASCADE'), nullable=False)
+    usuarios = relationship("Usuarios", back_populates="canciones")
+
+    def __init__(self,nombreCancion, duracionCancion, usuarioid, tipoMusicaid):
         self.nombreCancion = nombreCancion
         self.duracionCancion = duracionCancion
-        
+        self.usuarios_id= usuarioid
+        self.tipoMusica_id = tipoMusicaid
     def __repr__(self):
         return f"<Canciones {self.id}>"

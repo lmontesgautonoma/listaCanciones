@@ -6,6 +6,10 @@ import re
 import database.db as db
 import daos.cancionesDao as canciones
 import daos.usuariosDao as usuarios
+
+#########################################################
+if __name__ == '__main__':
+    db.Base.metadata.create_all(db.engine)
 #######################START##################################
 @bot.message_handler(commands=['start'])
 def on_command_start(message):
@@ -25,6 +29,7 @@ def on_command_help(message):
                 "\n"
                 "*/start* - Inicia la interacción con el bot\n"
                 "*/help* - Muestra este mensaje de ayuda\n"
+                "*agregar cancion o ag* - Te permite agregar una nueva cacione\n"
                 )
 
     bot.send_message(
@@ -46,19 +51,21 @@ def on_get_balance(message):
     bot.send_chat_action(message.chat.id, 'typing')
     parts = re.match(r"^(agregar cancion|ag) ([a-zA-Z]{3,20})",message.text,re.IGNORECASE)
     print (parts.groups())
+    # print(message.from_user)
     nombreCancion = (parts[2])
     #duracionCancion = (parts[3])
-    nombreUsuario=usuarios.register_usuario(message.from_user.id)
-    cancion = canciones.register_cancion(message.from_user.id,nombreCancion,"5")
-    if nombreUsuario != None:
-        print(nombreUsuario)
+    nombreUsuario=usuarios.register_usuario(message.from_user.id, message.from_user.first_name)
+    print(nombreUsuario)
+    cancion = canciones.register_cancion(nombreCancion,"5",message.from_user.id)
+  ##  if nombreUsuario != None:
+  ##      print(nombreUsuario)
     bot.reply_to(
         message,
-        f"\U0001F4B0 ¡Dinero ganado!: " if cancion == True
-        else "\U0001F4A9 Tuve problemas registrando la transacción, ejecuta /start y vuelve a intentarlo")
-    
+        f"\U0001F4B0 ¡Cancion almacenada cone exito!: " if cancion == True
+        else "\U0001F4A9 Tuve problemas registrando la cancion, ejecuta /start y vuelve a intentarlo")
 
-##################Siempre al final#####################    
+
+##################Siempre al final#####################
 @bot.message_handler(func=lambda message: True)
 def on_fallback(message):
     bot.send_chat_action(message.chat.id, 'typing')
