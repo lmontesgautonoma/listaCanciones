@@ -14,10 +14,14 @@ class Canciones(db.Base):
     usuarios_id = Column('usuarios_id', Integer, ForeignKey('usuarios.id',onupdate='CASCADE', ondelete='CASCADE'), nullable=False)
     usuarios = relationship("Usuarios", back_populates="canciones")
 
-    def __init__(self,nombreCancion, duracionCancion, usuarioid, tipoMusicaid):
+    listaCanciones_id = Column('listaCanciones_id', String(15), ForeignKey('listaCanciones.id',onupdate='CASCADE', ondelete='CASCADE'), nullable=False)
+    listaCanciones = relationship("ListaCanciones", back_populates="canciones")
+
+    def __init__(self,nombreCancion, duracionCancion, usuarioid, tipoMusicaid, listaCancionesid):
         self.nombreCancion = nombreCancion
         self.duracionCancion = duracionCancion
         self.usuarios_id= usuarioid
         self.tipoMusica_id = tipoMusicaid
+        self.listaCanciones_id = listaCancionesid
     def __repr__(self):
         return f"<Canciones {self.id}>"
