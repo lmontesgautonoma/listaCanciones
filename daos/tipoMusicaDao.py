@@ -2,13 +2,14 @@ import database.db as db
 from models.TipoMusica import TipoMusica
 from sqlalchemy import extract
 
-######################Agregar Canción###################################
-def register_tipoMusica():
-    tipoMusica = db.session.query(TipoMusica)
+######################Agregar Tipo Música###################################
+def register_tipoMusica(nombreTipoMusica):
+    tipoMusica = TipoMusica(nombreTipoMusica)
+    db.session.add(tipoMusica)
     db.session.commit()
-    if tipoMusica == None:
-        tipoMusica = TipoMusica("Vallenato")
-        db.session.add(tipoMusica)
-        db.session.commit()
-        return True
-    return False
+    return True
+######################Listar Tipo de Música###################################
+def get_tipoMusica():
+    tipoMusica= db.session.query(TipoMusica).all()
+    db.session.commit()
+    return tipoMusica

@@ -6,14 +6,7 @@ from datetime import datetime
 from sqlalchemy import extract
 
 ######################Agregar Canción###################################
-def register_cancion(nombreCancion, duracionCancion, id_usuario):
-    tipoMusica= db.session.query(TipoMusica).get('1')
-    db.session.commit()
-    if tipoMusica == None:
-        tipoMusica = TipoMusica('1', 'rock')
-        db.session.add(tipoMusica)
-        db.session.commit()
-
+def register_cancion(nombreCancion, duracionCancion, id_usuario,tipoMusica_id):
     listaCanciones= db.session.query(ListaCanciones).get('1')
     db.session.commit()
     if listaCanciones == None:
@@ -21,7 +14,7 @@ def register_cancion(nombreCancion, duracionCancion, id_usuario):
         db.session.add(listaCanciones)
         db.session.commit()
 
-    canciones = Canciones(nombreCancion, duracionCancion,id_usuario,tipoMusica.id, listaCanciones.id)
+    canciones = Canciones(nombreCancion, duracionCancion,id_usuario,tipoMusica_id, listaCanciones.id)
     db.session.add(canciones)
     db.session.commit()
     return True
@@ -35,5 +28,12 @@ def find_canciones(nombreCancion):
     canciones= db.session.query(Canciones).filter(
             Canciones.nombreCancion == nombreCancion
         ).first()
+    db.session.commit()
+    return canciones
+######################Lista  Canción por tipo música###################################
+def lista_canciones(idtipoMusica):
+    canciones= db.session.query(Canciones).filter(
+            Canciones.tipoMusica_id == idtipoMusica
+        ).all()
     db.session.commit()
     return canciones

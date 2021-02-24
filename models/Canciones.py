@@ -8,7 +8,7 @@ class Canciones(db.Base):
     nombreCancion = Column('nombreCancion', String(35), nullable=False)
     duracionCancion = Column('duracionCancion', String(5), nullable=False)
 
-    tipoMusica_id = Column('tipoMusica_id', String(15), ForeignKey('tipoMusica.id',onupdate='CASCADE', ondelete='CASCADE'), nullable=False)
+    tipoMusica_id = Column('tipoMusica_id', Integer, ForeignKey('tipoMusica.id',onupdate='CASCADE', ondelete='CASCADE'), nullable=False)
     tipoMusica = relationship("TipoMusica", back_populates="canciones")
 
     usuarios_id = Column('usuarios_id', Integer, ForeignKey('usuarios.id',onupdate='CASCADE', ondelete='CASCADE'), nullable=False)
