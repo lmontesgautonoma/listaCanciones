@@ -30,3 +30,10 @@ def get_canciones():
     canciones= db.session.query(Canciones).all()
     db.session.commit()
     return canciones
+######################Buscar Canción###################################
+def find_canciones(nombreCancion):
+    canciones= db.session.query(Canciones).filter(
+            Canciones.nombreCancion == nombreCancion
+        ).first()
+    db.session.commit()
+    return canciones

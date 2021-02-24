@@ -4,7 +4,7 @@ from sqlalchemy.orm import sessionmaker
 
 engine = create_engine (
  'sqlite:///database/listacanciones.sqlite',
- echo=True,
+ echo=False,
  connect_args = {'check_same_thread': False})
 
 Base = declarative_base()
