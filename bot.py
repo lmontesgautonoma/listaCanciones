@@ -66,19 +66,22 @@ def on_set_cancion(message):
         else "\U0001F4A9 Tuve problemas registrando la cancion, ejecuta /start y vuelve a intentarlo")
 
 
-##################Siempre al final#####################
+##################Listar Canciones#####################
 
 @bot.message_handler(regexp=r"^(listar canciones|lc)")
 def es(message):
     bot.send_chat_action(message.chat.id, 'typing')
-    cancion = canciones.get_canciones()
-    print (cancion)
-  ##  if nombreUsuario != None:
-  ##      print(nombreUsuario)
+    listacanciones = canciones.get_canciones()
+    response =''
+    if listacanciones:
+        for cancion in listacanciones:
+            response += str(cancion.id) +' '+cancion.nombreCancion+'\n'
+    else:
+        response = 'No tienes canciones almacenadas por el momento'
+
     bot.reply_to(
         message,
-        f"\U0001F4B0 ¡Cancion almacenada cone exito!: " if cancion == True
-        else "\U0001F4A9 Tuve problemas registrando la cancion, ejecuta /start y vuelve a intentarlo")
+        f"\U0001F4B0 ¡Tus canciones son: \n"+response)
 
 ##################Buscar canción#####################
 @bot.message_handler(regexp=r"^(buscar cancion|bc) ([a-zA-Z]{3,20})")
