@@ -27,7 +27,23 @@ def on_command_help(message):
     bot.send_message(
         message.chat.id,
         response,
-    parse_mode="Markdown") 
+    parse_mode="Markdown")
+
+##################Listar Canciones#####################
+@bot.message_handler(regexp=r"^(listar canciones|lc)")
+def es(message):
+    bot.send_chat_action(message.chat.id, 'typing')
+    listacanciones = canciones.get_canciones()
+    response =''
+    if listacanciones:
+        for cancion in listacanciones:
+            response += str(cancion.id) +' '+cancion.nombreCancion+'\n'
+    else:
+        response = 'No tienes canciones almacenadas por el momento'
+
+    bot.reply_to(
+        message,
+        f"\U0001F3BC ¡Tus canciones son: \n"+response) 
 ##################Siempre al final#####################    
 @bot.message_handler(func=lambda message: True)
 def on_fallback(message):
