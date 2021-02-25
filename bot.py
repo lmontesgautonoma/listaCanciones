@@ -73,6 +73,25 @@ def on_remove_cancion(message):
     bot.reply_to(
         message,
         f"\U0001F4B0"+response)
+
+#################Listar Canciones por tipo música#####################
+@bot.message_handler(regexp=r"^(listar tipo musica por cancion |ltmc) ([0-9]{1,2})")
+def list_tipomusica(message):
+    bot.send_chat_action(message.chat.id, 'typing')
+    parts = re.match(r"^(listar tipo musica por cancion |ltmc) ([0-9]{1,2})",message.text,re.IGNORECASE)
+    idTipoMusica= (parts[2])
+    listacanciones = canciones.lista_canciones(idTipoMusica)
+    response =''
+    if listacanciones:
+        for cancion in listacanciones:
+            response += str(cancion.id) +' '+cancion.nombreCancion+'\n'
+    else:
+        response = 'No tienes canciones almacenadas por el momento'
+
+    bot.reply_to(
+        message,
+        f"\U0001F3B9   ¡Tus canciones de la lista "+ idTipoMusica +" son: \n"+response) 
+        
 ##################Siempre al final#####################    
 @bot.message_handler(func=lambda message: True)
 def on_fallback(message):
