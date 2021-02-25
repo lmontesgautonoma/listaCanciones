@@ -44,6 +44,35 @@ def es(message):
     bot.reply_to(
         message,
         f"\U0001F3BC ¡Tus canciones son: \n"+response) 
+        
+##################Remover canciones de a cuerdo tipo de musica#####################
+@bot.message_handler(regexp=r"^(remover cancion|rc) ([a-zA-Z]{3,20}) ([0-9]{1,2})")
+def on_remove_cancion(message):
+    bot.send_chat_action(message.chat.id, 'typing')
+    parts = re.match(r"^(agregar cancion|rc) ([a-zA-Z]{3,20}) ([0-9]{1,2})",message.text,re.IGNORECASE)
+    print (parts.groups())
+
+    nombreCancion = (parts[2])
+    idtipoMusica = int(parts[3])
+    response =''
+    if idtipoMusica > 0 :
+        rowdelete= canciones.remover_cancion(nombreCancion,message.from_user.id,idtipoMusica)
+        if rowdelete >0 :
+            response ='¡Cancion removida con éxito!:'
+        else:
+            response ='¡No fue posible eliminar la cacion, favor verifica los datos!:'
+    else:
+        listatipoMusica = tipoMusica.get_tipoMusica()
+        if listatipoMusica:
+            response ='Debe indicar el ID del tipo de música \n Los tipos de música son: \n'
+            for tipomusica in listatipoMusica:
+                response +=str(tipomusica.id) +' '+tipomusica.nombreTipoMusica+'\n'
+        else:
+            response = 'No existe Tipo de música, debe crearla con {agtm}'
+        
+    bot.reply_to(
+        message,
+        f"\U0001F4B0"+response)
 ##################Siempre al final#####################    
 @bot.message_handler(func=lambda message: True)
 def on_fallback(message):
