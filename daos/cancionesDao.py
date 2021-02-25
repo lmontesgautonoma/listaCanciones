@@ -37,3 +37,12 @@ def lista_canciones(idtipoMusica):
         ).all()
     db.session.commit()
     return canciones
+######################Remover Canción por tipo de musica###################################
+def remover_cancion(nombreCancion, id_usuario,tipoMusica_id):
+
+    rowdelete = db.session.query(Canciones).filter(
+        Canciones.nombreCancion==nombreCancion,
+        Canciones.usuarios_id == id_usuario,
+        Canciones.tipoMusica_id == tipoMusica_id).delete()
+    db.session.commit()
+    return rowdelete
